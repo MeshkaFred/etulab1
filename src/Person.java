@@ -6,6 +6,7 @@ public class Person {
     public Person(String name, int age, String address){
         setName(name);
         setAge(age);
+        setAddress(address);
     }
 
     public void setName(String name){
@@ -20,7 +21,7 @@ public class Person {
         if (age>=0 && age<=14){
             System.out.print("Не достигнут возраст заказа: " + age );
         }
-        if (age<0 | age>=110){
+        if (age<0 || age>=110){
             System.out.print("Неккоректный возраст:" +age);
         }
         this.age=age;
@@ -33,7 +34,7 @@ public class Person {
         this.address=address;
     }
 
-    /// @return
+
     public int getAge(){
         return age;
     }
@@ -42,5 +43,13 @@ public class Person {
     }
     public String getAddress(){
         return address;
+    }
+
+
+    public void showInfo(){
+        System.out.println(age);
+        System.out.println(name);
+        System.out.println(address);
+
     }
 }

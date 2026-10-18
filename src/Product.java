@@ -7,7 +7,7 @@ public class Product {
         this.price=price;
         this.weight=weight;
     }
-///@return
+
     public String getName(){
         return name;
     }
@@ -18,9 +18,8 @@ public class Product {
         return weight;
     }
 
-///@consol
     @Override
     public String toString() {
-        return name + " - " + price + " - " + weight + " грамм ";
+        return name + " - " + price + " - руб, " + weight + " грамм ";
     }
 }
