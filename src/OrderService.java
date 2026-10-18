@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-public class CreateOrder {
+public class OrderService {
     private final List<Product> menu = new ArrayList<>();
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public CreateOrder(){
+    public OrderService(){
         initMenu();
     }
 
@@ -77,10 +77,53 @@ public class CreateOrder {
         for (OrderItem item : chosen){
             System.out.println(item);
             sum+=item.getTotalPrice();
+
         }
         System.out.println("Итоговая сумма: " + sum + " руб");
 
     }
+    private Person readClient(){
+        System.out.print("Введите имя: ");
+        String name = scanner.nextLine();
+        System.out.print("Введите возраст: ");
+        int age = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Введите адресс: ");
+        String address = scanner.nextLine();
+
+        return new Person(name,age,address);
+    }
+
+    public String readDeliveryAddress(Person client){
+        System.out.print("Для того, чтобы оставить текущий адрес доставки ( " + client.getAddress() + " ) нажмите 1, хотите поменять нажмите 2, хотите выйти нажмите 3: ");
+        int tmp = scanner.nextInt();
+        scanner.nextLine();
+        while (true){
+            if (tmp==1){
+                return client.getAddress();
+            }
+            if (tmp==2){
+                System.out.print("Введите адрес доставки: ");
+                String address = scanner.nextLine();
+                return address;
+            }
+            if (tmp==3) break;
+            else{
+                System.out.println("Ошибка ввода");
+                System.out.print("Введите снова: ");
+                tmp = scanner.nextInt();
+                scanner.nextLine();
+                continue;
+            }
+        }
+        return "";
+
+
+    }
+
+
+
+
 
 
 
