@@ -1,5 +1,5 @@
 import java.util.List;
-public enum DeliveryMethod {
+public enum DeliveryType {
     PICKUP,
     BIKE,
     CAR;
@@ -46,6 +46,18 @@ public enum DeliveryMethod {
         }
 
 
+    }
+    public boolean canHandle(double weightKG) {
+        switch (this) {
+            case PICKUP:
+                return true;
+            case BIKE:
+                return weightKG <= 15;
+            case CAR:
+                return true;
+            default:
+                throw new IllegalStateException("Unexpected: " + this);
+        }
     }
 
 

@@ -117,8 +117,52 @@ public class OrderService {
             }
         }
         return "";
+    }
+    private DeliveryType chooseDelivery(List<OrderItem> items){
+        double gram=0;
+        for (OrderItem item : items){
+            gram+=item.getWeight();
 
+        }
+        double weightKG=gram / 1000;
+        List<DeliveryType> canH = new ArrayList<>();
+        for (DeliveryType t : DeliveryType.values()) {
+            if (t.canHandle(weightKG)) {
+                canH.add(t);
+            }
+        }
+        while (true){
+            System.out.println("Выбери спосок доставки: ");
+            for (int i = 0; i <canH.size(); i++){
+                System.out.println((i+1) + "." + canH.get(i).getName());
+            }
+            System.out.println("Введите 0, чтобы выйти");
+            int choice = scanner.nextInt();
+            if (choice==0) return null;
+            if (choice<0 || choice > canH.size()){
+                System.out.println("Неизвестный выбор курьера, попробуйте снова");
+                continue;
+            }
+            else return canH.get(choice-1);
 
+        }
+    }
+    public void start() {
+        // 1. клиент
+        Person client = readClient();
+        // 2. адрес доставки (передаём клиента — если сделан выбор)
+        String address = readDeliveryAddress(client);
+        // 3. товары
+        List<OrderItem> chosen = chooseItems();
+        // 4. способ доставки — передаём список, чтобы знать вес
+        DeliveryType type = chooseDelivery(chosen);
+        // 5. собрать Order
+        Order order = new Order(client, address, type);
+        for (OrderItem item : chosen) {
+            order.addItem(item);
+        }
+
+        System.out.println(order);
     }
 
 
