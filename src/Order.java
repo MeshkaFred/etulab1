@@ -9,6 +9,9 @@ public class Order {
     private final String deliveryAddress;
     private final List<OrderItem> items = new ArrayList<>();
     private DeliveryType deliveryType;
+    private Courier courier;
+    private OrderStatus status;
+
 
     public void setDeliveryType(DeliveryType method) {
         if (method == null)
@@ -30,9 +33,29 @@ public class Order {
         this.client = client;
         this.deliveryAddress = deliveryAddress;
         this.deliveryType = deliveryType;
+        this.status = OrderStatus.CREATED;
 
 
 
+    }
+    public void assignCourier(Courier c){
+        if (deliveryType == DeliveryType.PICKUP) {
+            throw new IllegalStateException("Для самовывоза курьер не нужен");
+        }
+        if (c == null) {
+            throw new IllegalArgumentException("Курьер null");
+        }
+        this.courier = c;
+        this.status = OrderStatus.COURIER_ASSIGNED;
+
+    }
+
+    public OrderStatus getStatus() { return status; }
+    public void setStatus(OrderStatus status) {
+        if (status == null){
+            throw new IllegalArgumentException("Статус не может быть null");
+        }
+        this.status = status;
     }
 
 
@@ -43,6 +66,7 @@ public class Order {
     public Person getClient() {
         return client;
     }
+    public Courier getCourier() { return courier; }
 
     public String getDeliveryAddress() {
         return deliveryAddress;
@@ -96,6 +120,8 @@ public class Order {
         return getItemsTotal() + getDeliveryCost();
     }
 
+
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -103,6 +129,8 @@ public class Order {
         sb.append("Клиент: ").append(client.getName()).append("\n");
         sb.append("Адрес: ").append(deliveryAddress).append("\n");
         sb.append("Способ доставки: ").append(deliveryType.getName()).append("\n");
+        sb.append("Статус: ").append(getStatus()).append("\n");
+        sb.append("Курьер: ").append(getCourier()).append("\n");
         sb.append("Позиции:\n");
         for (OrderItem item : items) {
             sb.append("  ").append(item).append("\n");
